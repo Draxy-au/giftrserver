@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS users
+(
+    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+    email character varying(128) UNIQUE NOT NULL,
+    firstname character varying(128) NOT NULL,
+    lastname character varying(128) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS login
+(
+    email character varying(128) NOT NULL PRIMARY KEY,
+    hash character varying NOT NULL
+);

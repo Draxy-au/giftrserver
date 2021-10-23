@@ -1,0 +1,21 @@
+{
+  "name": "giftrserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "seed": "npx knex seed:make dev --knexfile=./db/knexfile.js",
+    "migrate": "npx knex migrate:latest --knexfile=./db/knexfile.js",
+    "dev": "nodemon index.js",
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.95.11",
+    "nodemon": "^2.0.13",
+    "objection": "^3.0.0-alpha.5",
+    "pg": "^8.7.1"
+  }
+}
