@@ -31,8 +31,8 @@ exports.up = function (knex) {
       table.string("name").notNullable();
       table.integer("category_id").references("id").inTable("categories");
       table.decimal("price", 14, 2).notNullable();
-      table.string("url");
-      table.string("description");
+      table.text("url");
+      table.text("description");
       table.string("image_path");
       table.string("status");
       table.timestamps(true, true);
@@ -55,11 +55,13 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema
-    .dropTableIfExists("login")
-    .dropTableIfExists("users")
-    .dropTableIfExists("lists")
-    .dropTableIfExists("categories")
-    .dropTableIfExists("listitems")
+    .dropTableIfExists("purchased")
     .dropTableIfExists("subscribed")
-    .dropTableIfExists("purchased");
+    .dropTableIfExists("purchased")
+    .dropTableIfExists("subscribed")
+    .dropTableIfExists("listitems")
+    .dropTableIfExists("categories")
+    .dropTableIfExists("lists")
+    .dropTableIfExists("users")
+    .dropTableIfExists("login");
 };
