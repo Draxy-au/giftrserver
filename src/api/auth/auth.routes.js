@@ -1,5 +1,8 @@
 const express = require("express");
 const yup = require("yup");
+const bcrypt = require('bcrypt');
+
+const User = require('../user/user.model');
 
 const router = express.Router();
 
@@ -43,9 +46,22 @@ router.post("/signin", async (req, res, next) => {
     await yupUserSchema.validate(createUser, {
       abortEarly: false
     });
-    res.json({
-      message: 'OKAY'
+    const existingUser = await User.query().where({email}).first();
+    if (existingUser) {
+      const error = new Error('Email in use.');
+      res.status(403);
+      throw error;
+    }
+    // TODO: Get salt rounds from config
+    const hashedPassword = await bcrypt.hash(password, 12)
+    const insertedUser = await User.query().insert({
+      first_name,
+      last_name,
+      email,
+      password: hashedPassword
     });
+    delete insertedUser.password;
+    res.json(insertedUser);
   } catch (err) {
     next(err);
   }

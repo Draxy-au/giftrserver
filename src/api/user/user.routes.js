@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const users = await User.query()
-    .select('id', 'first_name', 'last_name', 'created_at', 'updated_at');
+    .select('id', 'first_name', 'last_name', 'email', 'created_at', 'updated_at');
     res.json(users);
   } catch (err) {
     console.log(err);
