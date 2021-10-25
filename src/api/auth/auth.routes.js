@@ -2,6 +2,8 @@ const express = require("express");
 const yup = require("yup");
 const bcrypt = require('bcrypt');
 
+const jwt = require('../../lib/jwt');
+
 const User = require('../user/user.model');
 
 const router = express.Router();
@@ -33,6 +35,11 @@ const yupUserSchema = yup.object().shape({
     .required(),
 });
 
+const errorMessages = {
+  invalidLogin: 'Invalid Login.',
+  emailInUse: 'That email is already registered.',
+}
+
 router.post("/signin", async (req, res, next) => {
   const { email, first_name, last_name, password } = req.body;
   try {
@@ -48,27 +55,86 @@ router.post("/signin", async (req, res, next) => {
     });
     const existingUser = await User.query().where({email}).first();
     if (existingUser) {
-      const error = new Error('Email in use.');
+      const error = new Error(errorMessages.emailInUse);
       res.status(403);
       throw error;
     }
+    
     // TODO: Get salt rounds from config
     const hashedPassword = await bcrypt.hash(password, 12)
+    
     const insertedUser = await User.query().insert({
       first_name,
       last_name,
       email,
       password: hashedPassword
     });
+    
     delete insertedUser.password;
-    res.json(insertedUser);
+
+    const payload = {
+      id: insertedUser.id,
+      first_name,
+      last_name,
+      email,
+    };
+
+    const token = await jwt.sign(payload);
+
+    res.json({
+      user: payload,
+      token,
+    });
+
   } catch (err) {
     next(err);
   }
 });
 
-router.post("/login", (req, res, next) => {
-  res.send("login");
+router.post("/login", async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    
+    await yupUserSchema.validate({
+      first_name: 'FirstName',
+      last_name: 'Lastname',
+      email,
+      password,
+    }, {
+      abortEarly: false
+    });
+
+    const user = await User.query().where({email}).first();
+    if (!user) {
+      const error = new Error(errorMessages.invalidLogin);
+      res.status(403);
+      throw error;
+    }
+    
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      const error = new Error(errorMessages.invalidLogin);
+      res.status(403);
+      throw error;
+    }
+
+    const payload = {
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email,
+    };
+
+    const token = await jwt.sign(payload);
+
+    res.json({
+      user: payload,
+      token,
+    });
+
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

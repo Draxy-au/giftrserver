@@ -1,5 +1,4 @@
 module.exports = {
-  login: 'login',
   user: 'user',
   list: 'list',
   category: 'category',

@@ -1,39 +1,41 @@
-exports.seed = async function (knex) {
-  // truncate all existing tables
-  await knex.raw('TRUNCATE TABLE "user" CASCADE');
-  await knex.raw('TRUNCATE TABLE "list" CASCADE');
-  await knex.raw('TRUNCATE TABLE "category" CASCADE');
-  await knex.raw('TRUNCATE TABLE "listitem" CASCADE');
-  await knex.raw('TRUNCATE TABLE "subscribe" CASCADE');
-  await knex.raw('TRUNCATE TABLE "purchase" CASCADE');
+const tableNames = require('../../src/constants/tableNames');
+const bcrypt = require('bcrypt');
 
-  await knex("user").insert([
+
+
+exports.seed = async (knex) => {
+
+  await knex(tableNames.purchase).del();
+  await knex(tableNames.subscribe).del();
+  await knex(tableNames.listitem).del();
+  await knex(tableNames.category).del();
+  await knex(tableNames.list).del();
+  await knex(tableNames.user).del();
+
+  await knex(tableNames.user).insert([
     {
-      id: 1,
       email: "draxy80@gmail.com",
-      password: "$2a$10$z5F48JkBX3tt2490gSo0rOGEB4UdL6GaJAiuCdbC4aT0pWHQMaYD2",
+      password: await bcrypt.hash("Test123!", 12),
       first_name: "William",
       last_name: "Hamilton",
     },
     {
-      id: 2,
       email: "john@gmail.com",
-      password: "$2a$10$vrdJbafMO5owSrTi6baX.uFqJkxUJ/M16QGuK1Gtp55fmR81jUiqy",
+      password: await bcrypt.hash("Test123!", 12),
       first_name: "John",
       last_name: "Carroll",
     },
     {
-      id: 3,
       email: "joe@gmail.com",
-      password: "$2a$10$4n9pCj2BN6zCnC2AG43htOlG0Ha3n/NXH3mI1BX8qcO.dB4LFN2Pi",
+      password: await bcrypt.hash("Test123!", 12),
       first_name: "Joe",
       last_name: "Coady",
     },
   ]);
 
-  await knex("list").insert([
+  
+  await knex(tableNames.list).insert([
     {
-      id: 1,
       user_id: 1,
       name: "Xmas List",
       type: "xmas",
@@ -41,7 +43,6 @@ exports.seed = async function (knex) {
       closing: "24/12/2021",
     },
     {
-      id: 2,
       user_id: 2,
       name: "Bday List",
       type: "bday",
@@ -49,7 +50,6 @@ exports.seed = async function (knex) {
       closing: "01/08/2022",
     },
     {
-      id: 3,
       user_id: 3,
       name: "Xmas List",
       type: "xmas",
@@ -58,24 +58,22 @@ exports.seed = async function (knex) {
     },
   ]);
 
-  await knex("category").insert([
+  
+  await knex(tableNames.category).insert([
     {
-      id: 1,
       name: "Clothing",
     },
     {
-      id: 2,
       name: "Shoes",
     },
     {
-      id: 3,
       name: "Electronics",
     },
   ]);
 
-  await knex("listitem").insert([
+
+  await knex(tableNames.listitem).insert([
     {
-      id: 1,
       list_id: 1,
       name: "Tommy Hilfiger Men's Core Flag Tee (Grayheather, Size XXL)",
       category_id: 1,
@@ -86,7 +84,6 @@ exports.seed = async function (knex) {
       status: "",
     },
     {
-      id: 2,
       list_id: 1,
       name: "Nowflex - Men's Sports Shorts - Heather Grey",
       category_id: 1,
@@ -97,7 +94,6 @@ exports.seed = async function (knex) {
       status: "Purcahsed",
     },
     {
-      id: 3,
       list_id: 1,
       name: "Tommy Hilfiger Men's Brink Sneakers - Dark Blue",
       category_id: 2,
@@ -108,7 +104,6 @@ exports.seed = async function (knex) {
       status: "",
     },
     {
-      id: 4,
       list_id: 2,
       name: "Nikon D850 DSLR Camera w/ 24-120mm VR Lens Kit - Black",
       category_id: 3,
@@ -119,7 +114,6 @@ exports.seed = async function (knex) {
       status: "",
     },
     {
-      id: 5,
       list_id: 2,
       name: "Apple iPad 10.2-inch Wi-Fi + Cellular 64GB - Space Grey",
       category_id: 3,
@@ -130,7 +124,6 @@ exports.seed = async function (knex) {
       status: "",
     },
     {
-      id: 6,
       list_id: 2,
       name: "Karrimor 3inch Shorts Pants Trousers Bottoms Mens",
       category_id: 1,
@@ -141,7 +134,6 @@ exports.seed = async function (knex) {
       status: "Purchased",
     },
     {
-      id: 7,
       list_id: 3,
       name: "Apple MacBook Pro 13-inch with Intel Processor 1TB - Silver",
       category_id: 3,
@@ -152,7 +144,6 @@ exports.seed = async function (knex) {
       status: "",
     },
     {
-      id: 8,
       list_id: 3,
       name: "Target Slim Chino Shorts - Green",
       category_id: 1,
@@ -163,7 +154,6 @@ exports.seed = async function (knex) {
       status: "",
     },
     {
-      id: 9,
       list_id: 3,
       name: "Target European Linen Shirt - White",
       category_id: 1,
@@ -175,42 +165,37 @@ exports.seed = async function (knex) {
     },
   ]);
 
-  await knex("subscribe").insert([
+
+  await knex(tableNames.subscribe).insert([
     {
-      id: 1,
       user_id: 1,
       list_id: 2,
     },
     {
-      id: 2,
       user_id: 1,
       list_id: 3,
     },
     {
-      id: 3,
       user_id: 2,
       list_id: 3,
     },
     {
-      id: 4,
       user_id: 3,
       list_id: 1,
     },
     {
-      id: 5,
       user_id: 3,
       list_id: 2,
     },
   ]);
 
-  await knex("purchase").insert([
+
+  await knex(tableNames.purchase).insert([
     {
-      id: 1,
       user_id: 1,
       list_item_id: 6,
     },
     {
-      id: 2,
       user_id: 3,
       list_item_id: 2,
     },

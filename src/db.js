@@ -2,7 +2,7 @@ const knex = require('knex');
 
 const { Model } = require('objection');
 
-const knexConfig = require('../db/knexfile');
+const knexConfig = require('../knexfile');
 
 const environment = 'development';
 

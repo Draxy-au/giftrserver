@@ -1,6 +1,10 @@
-exports.up = function (knex) {
+const tableNames = require("../../src/constants/tableNames");
+
+require("../../src/constants/tableNames");
+
+exports.up = async (knex) => {
   return knex.schema
-    .createTable("user", (table) => {
+    .createTable(tableNames.user, (table) => {
       table.increments();
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
@@ -8,7 +12,7 @@ exports.up = function (knex) {
       table.string("last_name").notNullable();
       table.timestamps(true, true);
     })
-    .createTable("list", (table) => {
+    .createTable(tableNames.list, (table) => {
       table.increments();
       table.integer("user_id").references("id").inTable("user").notNullable();
       table.string("name").notNullable();
@@ -17,11 +21,11 @@ exports.up = function (knex) {
       table.date("closing").notNullable();
       table.timestamps(true, true);
     })
-    .createTable("category", (table) => {
+    .createTable(tableNames.category, (table) => {
       table.increments();
       table.string("name").notNullable();
     })
-    .createTable("listitem", (table) => {
+    .createTable(tableNames.listitem, (table) => {
       table.increments();
       table.integer("list_id").references("id").inTable("list").notNullable();
       table.string("name").notNullable();
@@ -33,12 +37,12 @@ exports.up = function (knex) {
       table.string("status");
       table.timestamps(true, true);
     })
-    .createTable("subscribe", (table) => {
+    .createTable(tableNames.subscribe, (table) => {
       table.increments();
       table.integer("user_id").references("id").inTable("user").notNullable();
       table.integer("list_id").references("id").inTable("list").notNullable();
     })
-    .createTable("purchase", (table) => {
+    .createTable(tableNames.purchase, (table) => {
       table.increments();
       table.integer("user_id").references("id").inTable("user").notNullable();
       table
@@ -49,12 +53,12 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function (knex) {
+exports.down = async (knex) => {
   return knex.schema
-    .dropTableIfExists("purchase")
-    .dropTableIfExists("subscribe")
-    .dropTableIfExists("listitem")
-    .dropTableIfExists("category")
-    .dropTableIfExists("list")
-    .dropTableIfExists("user")
- };
+    .dropTableIfExists(tableNames.purchase)
+    .dropTableIfExists(tableNames.subscribe)
+    .dropTableIfExists(tableNames.listitem)
+    .dropTableIfExists(tableNames.category)
+    .dropTableIfExists(tableNames.list)
+    .dropTableIfExists(tableNames.user);
+};
