@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "title": "Subscribe",
+  "description": "The Subscrition list.",
+  "examples": [
+      {
+          "user_id": 2,
+          "list_id": 3          
+      }
+  ],
+  "required": [
+      "user_id",
+      "list_id"
+  ],
+  "properties": {
+      "id": {
+          "$id": "#/properties/id",
+          "type": "integer",
+          "title": "Subscribe ID",
+          "description": "The Subscribe unique ID"
+      },
+      "user_id": {
+          "$id": "#/properties/user_id",
+          "type": "integer",
+          "title": "User ID",
+          "description": "The User unique ID"
+      },
+      "list_id": {
+          "$id": "#/properties/list_id",
+          "type": "integer",
+          "title": "List ID",
+          "description": "The List unique ID"
+      }      
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "title": "Category",
+  "description": "The Category.",
+  "examples": [
+      {
+          "name": "Clothes"          
+      }
+  ],
+  "required": [
+      "name"
+  ],
+  "properties": {
+      "id": {
+          "$id": "#/properties/id",
+          "type": "integer",
+          "title": "Category ID",
+          "description": "The Categories unique ID"
+      },
+      "name": {
+          "$id": "#/properties/name",
+          "type": "string",
+          "title": "The Categories Name",
+          "description": "The Categories Name.",
+          "examples": [
+              "Clothes"
+          ]
+      }
+  },
+  "additionalProperties": false
+}

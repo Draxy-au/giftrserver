@@ -27,7 +27,7 @@ const yupUserSchema = yup.object().shape({
   password: yup
     .string()
     .min(5)
-    .max(100)
+    .max(130)
     .matches(/[^A-Za-z0-9]/, 'password must contain a special character')
     .matches(/[A-Z]/, 'password must contain an uppercase letter')
     .matches(/[a-z]/, 'password must contain a lowercase letter')
@@ -56,7 +56,7 @@ router.post("/signin", async (req, res, next) => {
     const existingUser = await User.query().where({email}).first();
     if (existingUser) {
       const error = new Error(errorMessages.emailInUse);
-      res.status(403);
+      res.status(403).json(error.message);
       throw error;
     }
     
@@ -107,14 +107,14 @@ router.post("/login", async (req, res, next) => {
     const user = await User.query().where({email}).first();
     if (!user) {
       const error = new Error(errorMessages.invalidLogin);
-      res.status(403);
+      res.status(403).json(error.message);
       throw error;
     }
     
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       const error = new Error(errorMessages.invalidLogin);
-      res.status(403);
+      res.status(403).json(error.message);
       throw error;
     }
 

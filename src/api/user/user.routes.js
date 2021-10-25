@@ -26,16 +26,4 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
-// TODO: Remove this wen auth setup
-router.post('/', async(req,res) => {
-  try{
-  const user = await User
-    .query()
-    .insert(req.body);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-})
-
 module.exports = router;
