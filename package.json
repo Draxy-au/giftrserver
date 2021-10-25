@@ -8,16 +8,22 @@
     "seed": "npx knex seed:run --knexfile=./db/knexfile.js",
     "migrate": "npx knex migrate:latest --knexfile=./db/knexfile.js",
     "migrate-down": "npx knex migrate:down --knexfile=./db/knexfile.js",
-    "dev": "nodemon index.js",
-    "start": "nodemon index.js"
+    "dev": "nodemon src/index.js",
+    "start": "nodemon src/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "compression": "^1.7.4",
     "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.11",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.13",
     "objection": "^3.0.0-alpha.5",
-    "pg": "^8.7.1"
+    "pg": "^8.7.1",
+    "yup": "^0.32.11"
   }
 }

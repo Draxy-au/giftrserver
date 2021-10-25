@@ -1,53 +1,37 @@
 exports.seed = async function (knex) {
   // truncate all existing tables
-  await knex.raw('TRUNCATE TABLE "login" CASCADE');
-  await knex.raw('TRUNCATE TABLE "users" CASCADE');
-  await knex.raw('TRUNCATE TABLE "lists" CASCADE');
-  await knex.raw('TRUNCATE TABLE "categories" CASCADE');
-  await knex.raw('TRUNCATE TABLE "listitems" CASCADE');
-  await knex.raw('TRUNCATE TABLE "subscribed" CASCADE');
-  await knex.raw('TRUNCATE TABLE "purchased" CASCADE');
+  await knex.raw('TRUNCATE TABLE "user" CASCADE');
+  await knex.raw('TRUNCATE TABLE "list" CASCADE');
+  await knex.raw('TRUNCATE TABLE "category" CASCADE');
+  await knex.raw('TRUNCATE TABLE "listitem" CASCADE');
+  await knex.raw('TRUNCATE TABLE "subscribe" CASCADE');
+  await knex.raw('TRUNCATE TABLE "purchase" CASCADE');
 
-  await knex("login").insert([
+  await knex("user").insert([
     {
       id: 1,
       email: "draxy80@gmail.com",
-      hash: "$2a$10$z5F48JkBX3tt2490gSo0rOGEB4UdL6GaJAiuCdbC4aT0pWHQMaYD2",
-    },
-    {
-      id: 2,
-      email: "john@gmail.com",
-      hash: "$2a$10$vrdJbafMO5owSrTi6baX.uFqJkxUJ/M16QGuK1Gtp55fmR81jUiqy",
-    },
-    {
-      id: 3,
-      email: "joe@gmail.com",
-      hash: "$2a$10$4n9pCj2BN6zCnC2AG43htOlG0Ha3n/NXH3mI1BX8qcO.dB4LFN2Pi",
-    },
-  ]);
-
-  await knex("users").insert([
-    {
-      id: 1,
-      email_id: 1,
+      password: "$2a$10$z5F48JkBX3tt2490gSo0rOGEB4UdL6GaJAiuCdbC4aT0pWHQMaYD2",
       first_name: "William",
       last_name: "Hamilton",
     },
     {
       id: 2,
-      email_id: 2,
+      email: "john@gmail.com",
+      password: "$2a$10$vrdJbafMO5owSrTi6baX.uFqJkxUJ/M16QGuK1Gtp55fmR81jUiqy",
       first_name: "John",
       last_name: "Carroll",
     },
     {
       id: 3,
-      email_id: 3,
+      email: "joe@gmail.com",
+      password: "$2a$10$4n9pCj2BN6zCnC2AG43htOlG0Ha3n/NXH3mI1BX8qcO.dB4LFN2Pi",
       first_name: "Joe",
       last_name: "Coady",
     },
   ]);
 
-  await knex("lists").insert([
+  await knex("list").insert([
     {
       id: 1,
       user_id: 1,
@@ -74,7 +58,7 @@ exports.seed = async function (knex) {
     },
   ]);
 
-  await knex("categories").insert([
+  await knex("category").insert([
     {
       id: 1,
       name: "Clothing",
@@ -89,7 +73,7 @@ exports.seed = async function (knex) {
     },
   ]);
 
-  await knex("listitems").insert([
+  await knex("listitem").insert([
     {
       id: 1,
       list_id: 1,
@@ -191,7 +175,7 @@ exports.seed = async function (knex) {
     },
   ]);
 
-  await knex("subscribed").insert([
+  await knex("subscribe").insert([
     {
       id: 1,
       user_id: 1,
@@ -219,7 +203,7 @@ exports.seed = async function (knex) {
     },
   ]);
 
-  await knex("purchased").insert([
+  await knex("purchase").insert([
     {
       id: 1,
       user_id: 1,

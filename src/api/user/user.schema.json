@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "title": "User",
+  "description": "The User.",
+  "examples": [
+      {
+          "email": "someone@gmail.com",
+          "password": "hashed password",
+          "first_name": "William",
+          "last_name": "Hamilton"          
+      }
+  ],
+  "required": [
+      "email",
+      "password",
+      "first_name",
+      "last_name"
+  ],
+  "properties": {
+      "id": {
+          "$id": "#/properties/id",
+          "type": "integer",
+          "title": "User ID",
+          "description": "The User's unique ID"
+      },
+      "email": {
+        "$id": "#/properties/email",
+        "type": "string",
+        "title": "The User's Email",
+        "description": "The User's Email Address.",
+        "examples": [
+            "someone@gmail.com"
+        ]
+      },
+      "password": {
+        "$id": "#/properties/password",
+        "type": "string",
+        "title": "The User's password",
+        "description": "The User's password."
+      },
+      "first_name": {
+          "$id": "#/properties/first_name",
+          "type": "string",
+          "title": "The User's First Name",
+          "description": "The User's First Name.",
+          "examples": [
+              "William"
+          ]
+      },
+      "last_name": {
+          "$id": "#/properties/last_name",
+          "type": "string",
+          "title": "The User's Last Name",
+          "description": "The User's Last Name.",
+          "examples": [
+              "Hamilton"
+          ]
+      },
+      "created_at": {
+          "$id": "#/properties/created_at",
+          "type": "string",
+          "title": "User Creation Date.",
+          "description": "The creation date of the User."
+          
+      },
+      "updated_at": {
+          "$id": "#/properties/updated_at",
+          "type": "string",
+          "title": "User Last Updated",
+          "description": "The date the User was last updated."
+      }
+  },
+  "additionalProperties": false
+}
