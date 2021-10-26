@@ -15,6 +15,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/purchases/:id", (req, res) => {
+  const {id} = req.params;
+  User.relatedQuery("purchases").for(User.query().where({id: id}))
+    .then(users => {
+      res.json({users})
+    })
+});
+
+router.get("/subscriptions/:id", (req, res) => {
+  const {id} = req.params;
+  User.relatedQuery("subscriptions").for(User.query().where({id: id}))
+    .then(users => {
+      res.json({users})
+    })
+});
+
 router.get("/:id", async (req, res) => {
   const {id} = req.params;
   try {

@@ -68,4 +68,40 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { user_id, name, type, closing } = req.body;
+  try {
+    const updateList = {
+      user_id,
+      name,
+      type,
+      closing,
+    };
+
+    await yupListSchema.validate(updateList, {
+      abortEarly: false,
+    });
+    
+    const list = await List.query().patchAndFetchById(id, updateList);
+    res.json(list);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    const list = await List.query().findById(id);
+    const listitems = await list.$relatedQuery('')
+    res.json(listDeletedCount);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

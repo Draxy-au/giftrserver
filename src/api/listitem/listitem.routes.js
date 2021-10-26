@@ -84,4 +84,55 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    list_id,
+    name,
+    category_id,
+    price,
+    url,
+    description,
+    image_path,
+    status,
+  } = req.body;
+
+  try {
+    const updateListitem = {
+      list_id,
+      name,
+      category_id: category_id ? category_id : null,
+      price,
+      url: url ? url : "",
+      description: description ? description : "",
+      image_path: image_path ? image_path : "",
+      status: status ? status : "",
+    };
+
+    await yupListitemSchema.validate(updateListitem, {
+      abortEarly: false,
+    });
+
+    const listitem = await Listitem.query().patchAndFetchById(
+      id,
+      updateListitem
+    );
+    res.json(listitem);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const listitemDeletedCount = await Listitem.query().deleteById(id);
+    res.json(listitemDeletedCount);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
