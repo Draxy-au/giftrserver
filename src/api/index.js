@@ -21,5 +21,4 @@ router.use('/purchase', purchase);
 router.use('/listitem', listitem);
 router.use('/list', list);
 
- 
 module.exports = router;
