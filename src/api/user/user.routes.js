@@ -6,8 +6,14 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const users = await User.query()
-    .select('id', 'first_name', 'last_name', 'email', 'created_at', 'updated_at');
+    const users = await User.query().select(
+      "id",
+      "first_name",
+      "last_name",
+      "email",
+      "created_at",
+      "updated_at"
+    );
     res.json(users);
   } catch (err) {
     console.log(err);
@@ -15,24 +21,54 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/purchases/:id", (req, res) => {
-  const {id} = req.params;
-  User.relatedQuery("purchases").for(User.query().where({id: id}))
-    .then(users => {
-      res.json({users})
-    })
+router.get("/purchases/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const users = await User.query()
+      .withGraphFetched("purchases")
+      .where({ id });
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
-router.get("/subscriptions/:id", (req, res) => {
-  const {id} = req.params;
-  User.relatedQuery("subscriptions").for(User.query().where({id: id}))
-    .then(users => {
-      res.json({users})
-    })
+router.get("/purchases", async (req, res) => {
+  try {
+    const users = await User.query().withGraphFetched("purchases");
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.get("/subscriptions/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const users = await User.query()
+      .withGraphFetched("subscriptions")
+      .where({ id });
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.get("/subscriptions", async (req, res) => {
+  try {
+    const users = await User.query().withGraphFetched("subscriptions");
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
 router.get("/:id", async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const user = await User.query().findById(id);
     res.json(user);
