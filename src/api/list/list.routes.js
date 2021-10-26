@@ -17,7 +17,28 @@ const errorMessages = {
 
 router.get("/", async (req, res) => {
   try {
-    const list = await List.query().select();
+    const list = await List.query().withGraphFetched("user");
+    res.json(list);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.get("/items", async (req, res) => {
+  try {
+    const list = await List.query().withGraphFetched("items");
+    res.json(list);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.get("/items/:id", async (req, res) => {
+  const {id} = req.params;
+  try {
+    const list = await List.query().withGraphFetched("items").where({id});
     res.json(list);
   } catch (err) {
     console.log(err);
@@ -91,17 +112,17 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
+// router.delete("/:id", async (req, res) => {
+//   const { id } = req.params;
   
-  try {
-    const list = await List.query().findById(id);
-    const listitems = await list.$relatedQuery('')
-    res.json(listDeletedCount);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
+//   try {
+//     const list = await List.query().findById(id);
+//     const listitems = await list.$relatedQuery('')
+//     res.json(listDeletedCount);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json(err);
+//   }
+// });
 
 module.exports = router;
