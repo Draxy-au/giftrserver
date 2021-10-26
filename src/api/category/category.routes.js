@@ -5,22 +5,16 @@ const Category = require("./category.model");
 const router = express.Router();
 
 const yupCategorySchema = yup.object().shape({
-  name: yup
-    .string()
-    .trim()
-    .min(2)
-    .required()
+  name: yup.string().trim().min(2).required(),
 });
 
 const errorMessages = {
-  categoryExists: 'This category already exists.',
- 
-}
+  categoryExists: "This category already exists.",
+};
 
 router.get("/", async (req, res) => {
   try {
-    const category = await Category.query()
-    .select();
+    const category = await Category.query().select();
     res.json(category);
   } catch (err) {
     console.log(err);
@@ -29,7 +23,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const category = await Category.query().findById(id);
     res.json(category);
@@ -40,33 +34,28 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const {name} = req.body;
+  const { name } = req.body;
   try {
     const newCategory = {
       name: name,
-    }
+    };
 
     await yupCategorySchema.validate(newCategory, {
-      abortEarly: false
+      abortEarly: false,
     });
 
-    const existingCategory = await Category.query().where({name}).first();
+    const existingCategory = await Category.query().where({ name }).first();
     if (existingCategory) {
       const error = new Error(errorMessages.categoryExists);
       res.status(403).json(error.message);
       throw error;
     }
-    const category = await Category
-      .query()      
-      .insert({
-        name
-      });
+    const category = await Category.query().insert(newCategory);
     res.json(category);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
 });
-
 
 module.exports = router;

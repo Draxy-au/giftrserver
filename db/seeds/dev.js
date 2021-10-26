@@ -39,22 +39,19 @@ exports.seed = async (knex) => {
       user_id: 1,
       name: "Xmas List",
       type: "xmas",
-      created: "24/10/2021",
-      closing: "24/12/2021",
+      closing: "2021-12-24",
     },
     {
       user_id: 2,
       name: "Bday List",
       type: "bday",
-      created: "23/10/2021",
-      closing: "01/08/2022",
+      closing: "2022-08-01",
     },
     {
       user_id: 3,
       name: "Xmas List",
       type: "xmas",
-      created: "21/10/2021",
-      closing: "24/12/2021",
+      closing: "2021-12-24",
     },
   ]);
 
@@ -193,11 +190,11 @@ exports.seed = async (knex) => {
   await knex(tableNames.purchase).insert([
     {
       user_id: 1,
-      list_item_id: 6,
+      listitem_id: 6,
     },
     {
       user_id: 3,
-      list_item_id: 2,
+      listitem_id: 2,
     },
   ]);
 

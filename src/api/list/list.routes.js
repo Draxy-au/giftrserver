@@ -1,22 +1,24 @@
 const express = require("express");
 const yup = require("yup");
-const Subscribe = require("./subscribe.model");
+const List = require("./list.model");
 
 const router = express.Router();
 
-const yupSubscribeSchema = yup.object().shape({
+const yupListSchema = yup.object().shape({
   user_id: yup.number().required(),
-  list_id: yup.number().required(),
+  name: yup.string().required(),
+  type: yup.string().required(),
+  closing: yup.string().required(),
 });
 
 const errorMessages = {
-  subscribeExists: "User already subscribed to that list.",
+  listExists: "This List already exists.",
 };
 
 router.get("/", async (req, res) => {
   try {
-    const subscribe = await Subscribe.query().select();
-    res.json(subscribe);
+    const list = await List.query().select();
+    res.json(list);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -26,8 +28,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const subscribe = await Subscribe.query().findById(id);
-    res.json(subscribe);
+    const list = await List.query().findById(id);
+    res.json(list);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -35,28 +37,31 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { user_id, list_id } = req.body;
+  const { user_id, name, type, closing } = req.body;
   try {
-    const newSubscribe = {
+    const newList = {
       user_id,
-      list_id,
+      name,
+      type,
+      closing,
     };
 
-    await yupSubscribeSchema.validate(newSubscribe, {
+    await yupListSchema.validate(newList, {
       abortEarly: false,
     });
 
-    const existingSubscribe = await Subscribe.query()
+    const existingList = await List.query()
       .where({ user_id })
-      .where({ list_id })
+      .where({ name })
+      .where({ type })
       .first();
-    if (existingSubscribe) {
-      const error = new Error(errorMessages.subscribeExists);
+    if (existingList) {
+      const error = new Error(errorMessages.listExists);
       res.status(403).json(error.message);
       throw error;
     }
-    const subscribe = await Subscribe.query().insert(newSubscribe);
-    res.json(subscribe);
+    const list = await List.query().insert(newList);
+    res.json(list);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

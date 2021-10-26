@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "title": "Listitem",
+  "description": "The Listitem.",
+  "examples": [
+      {
+          "list_id": 2,
+          "name": "Nike Air Jordans",
+          "category_id": 3,
+          "price": 149.00,
+          "url": "http://www.nikeshop.com/item/4923",
+          "description": "A lovely pair of shoes",
+          "image_path": "2.png",
+          "status": "purchased"
+      }
+  ],
+  "required": [
+      "list_id",
+      "name",
+      "price"
+  ],
+  "properties": {
+      "id": {
+          "$id": "#/properties/id",
+          "type": "integer",
+          "title": "Listitem ID",
+          "description": "The listitem's unique ID"
+      },
+      "list_id": {
+        "$id": "#/properties/list_id",
+        "type": "integer",
+        "title": "List ID",
+        "description": "The List ID this item is apart of"
+      },
+      "name": {
+        "$id": "#/properties/name",
+        "type": "string",
+        "title": "Listitem Name",
+        "description": "The Listitem's name."
+      },
+      "category_id": {
+        "$id": "#/properties/category_id",
+        "type": "integer",
+        "title": "Category ID",
+        "description": "The Category ID this item is apart of"
+      },
+      "price": {
+        "$id": "#/properties/price",
+        "type": "number",
+        "title": "Price",
+        "description": "The Price of the List item"
+      },
+      "url": {
+        "$id": "#/properties/url",
+        "type": "string",
+        "title": "Listitem URL",
+        "description": "A URL link from the Listitem to 3rd party website."
+      },
+      "description": {
+        "$id": "#/properties/description",
+        "type": "string",
+        "title": "Listitem Description",
+        "description": "A description of the Listitem."
+      },
+      "image_path": {
+        "$id": "#/properties/image_path",
+        "type": "string",
+        "title": "Listitem Image Path",
+        "description": "The path to an Image of the Listitem."
+      },
+      "status": {
+        "$id": "#/properties/status",
+        "type": "string",
+        "title": "Listitem Status",
+        "description": "The Status of the Listitem."
+      },
+      "created_at": {
+          "$id": "#/properties/created_at",
+          "type": "string",
+          "title": "Listitem Creation Date.",
+          "description": "The creation date of the Listitem."
+          
+      },
+      "updated_at": {
+          "$id": "#/properties/updated_at",
+          "type": "string",
+          "title": "Listitem Last Updated",
+          "description": "The date the Listitem was last updated."
+      }
+  },
+  "additionalProperties": false
+}

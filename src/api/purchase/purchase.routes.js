@@ -1,22 +1,22 @@
 const express = require("express");
 const yup = require("yup");
-const Subscribe = require("./subscribe.model");
+const Purchase = require("./purchase.model");
 
 const router = express.Router();
 
-const yupSubscribeSchema = yup.object().shape({
+const yupPurchaseSchema = yup.object().shape({
   user_id: yup.number().required(),
-  list_id: yup.number().required(),
+  listitem_id: yup.number().required(),
 });
 
 const errorMessages = {
-  subscribeExists: "User already subscribed to that list.",
+  purchaseExists: "User already purchased that item.",
 };
 
 router.get("/", async (req, res) => {
   try {
-    const subscribe = await Subscribe.query().select();
-    res.json(subscribe);
+    const purchase = await Purchase.query().select();
+    res.json(purchase);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -26,8 +26,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const subscribe = await Subscribe.query().findById(id);
-    res.json(subscribe);
+    const purchase = await Purchase.query().findById(id);
+    res.json(purchase);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -35,28 +35,28 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { user_id, list_id } = req.body;
+  const { user_id, listitem_id } = req.body;
   try {
-    const newSubscribe = {
+    const newPurchase = {
       user_id,
-      list_id,
+      listitem_id,
     };
 
-    await yupSubscribeSchema.validate(newSubscribe, {
+    await yupPurchaseSchema.validate(newPurchase, {
       abortEarly: false,
     });
 
-    const existingSubscribe = await Subscribe.query()
+    const existingPurchase = await Purchase.query()
       .where({ user_id })
-      .where({ list_id })
+      .where({ listitem_id })
       .first();
-    if (existingSubscribe) {
-      const error = new Error(errorMessages.subscribeExists);
+    if (existingPurchase) {
+      const error = new Error(errorMessages.purchaseExists);
       res.status(403).json(error.message);
       throw error;
     }
-    const subscribe = await Subscribe.query().insert(newSubscribe);
-    res.json(subscribe);
+    const purchase = await Purchase.query().insert(newPurchase);
+    res.json(purchase);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
