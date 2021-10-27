@@ -1,10 +1,10 @@
 const express = require("express");
 
 const User = require("./user.model");
-
+const jwt = require('../../lib/jwt');
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", jwt.validateToken, async (req, res) => {
   try {
     const users = await User.query().select(
       "id",
@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/purchases/:id", async (req, res) => {
+router.get("/purchases/:id", jwt.validateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const users = await User.query()
@@ -34,7 +34,7 @@ router.get("/purchases/:id", async (req, res) => {
   }
 });
 
-router.get("/purchases", async (req, res) => {
+router.get("/purchases", jwt.validateToken, async (req, res) => {
   try {
     const users = await User.query().withGraphFetched("purchases");
     res.json(users);
@@ -44,7 +44,7 @@ router.get("/purchases", async (req, res) => {
   }
 });
 
-router.get("/subscriptions/:id", async (req, res) => {
+router.get("/subscriptions/:id", jwt.validateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const users = await User.query()
@@ -57,7 +57,7 @@ router.get("/subscriptions/:id", async (req, res) => {
   }
 });
 
-router.get("/subscriptions", async (req, res) => {
+router.get("/subscriptions", jwt.validateToken, async (req, res) => {
   try {
     const users = await User.query().withGraphFetched("subscriptions");
     res.json(users);
@@ -67,7 +67,7 @@ router.get("/subscriptions", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", jwt.validateToken, async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.query().findById(id);

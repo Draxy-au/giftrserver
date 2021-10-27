@@ -40,7 +40,7 @@ const errorMessages = {
   emailInUse: 'That email is already registered.',
 }
 
-router.post("/signin", async (req, res, next) => {
+router.post("/signup", async (req, res, next) => {
   const { email, first_name, last_name, password } = req.body;
   try {
     const createUser = {
@@ -79,7 +79,19 @@ router.post("/signin", async (req, res, next) => {
       email,
     };
 
-    const token = await jwt.sign(payload);
+    const token = await jwt.sign(
+      payload, 
+      process.env.JWT_SECRET, 
+      {
+        expiresIn: "30d",
+
+      }  
+    );
+
+    res.cookie("access-token", token, {
+      maxAge: 2592000000,
+      httpOnly: true,
+    });
 
     res.json({
       user: payload,
@@ -126,6 +138,11 @@ router.post("/login", async (req, res, next) => {
     };
 
     const token = await jwt.sign(payload);
+
+    res.cookie("access-token", token, {
+      maxAge: 2592000000,
+      httpOnly: true,
+    });
 
     res.json({
       user: payload,
