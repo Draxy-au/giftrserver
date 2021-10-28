@@ -27,6 +27,7 @@ router.get("/purchases/:id", async (req, res) => {
     const users = await User.query()
       .withGraphFetched("purchases")
       .where({ id });
+    delete users[0].password;
     res.json(users);
   } catch (err) {
     console.log(err);
@@ -37,6 +38,7 @@ router.get("/purchases/:id", async (req, res) => {
 router.get("/purchases", jwt.validateToken, async (req, res) => {
   try {
     const users = await User.query().withGraphFetched("purchases");
+    delete users[0].password
     res.json(users);
   } catch (err) {
     console.log(err);
@@ -50,6 +52,8 @@ router.get("/subscriptions/:id", async (req, res) => {
     const users = await User.query()
       .withGraphFetched("subscriptions")
       .where({ id });
+    
+      delete users[0].password;
     res.json(users);
   } catch (err) {
     console.log(err);
@@ -60,6 +64,7 @@ router.get("/subscriptions/:id", async (req, res) => {
 router.get("/subscriptions", jwt.validateToken, async (req, res) => {
   try {
     const users = await User.query().withGraphFetched("subscriptions");
+    delete users[0].password;
     res.json(users);
   } catch (err) {
     console.log(err);
@@ -71,6 +76,7 @@ router.get("/lists/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const users = await User.query().withGraphFetched("lists").where({ id });;
+    delete users[0].password;
     res.json(users);
   } catch (err) {
     console.log(err);
@@ -78,10 +84,11 @@ router.get("/lists/:id", async (req, res) => {
   }
 });
 
-router.get("/:id", jwt.validateToken, async (req, res) => {
+router.get("/:id",async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.query().findById(id);
+    delete user.password;
     res.json(user);
   } catch (err) {
     console.log(err);
