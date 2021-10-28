@@ -28,10 +28,10 @@ const yupUserSchema = yup.object().shape({
     .string()
     .min(5)
     .max(130)
-    .matches(/[^A-Za-z0-9]/, 'password must contain a special character')
-    .matches(/[A-Z]/, 'password must contain an uppercase letter')
-    .matches(/[a-z]/, 'password must contain a lowercase letter')
-    .matches(/[0-9]/, 'password must contain a number')
+    .matches(/[^A-Za-z0-9]/, 'Password must contain a special character')
+    .matches(/[A-Z]/, 'Password must contain an uppercase letter')
+    .matches(/[a-z]/, 'Password must contain a lowercase letter')
+    .matches(/[0-9]/, 'Password must contain a number')
     .required(),
 });
 
@@ -39,6 +39,14 @@ const errorMessages = {
   invalidLogin: 'Invalid Login.',
   emailInUse: 'That email is already registered.',
 }
+
+router.get('/signup', (req,res) => {
+  res.status(200).json({message:'signup'});
+})
+
+router.get('/login', (req,res) => {
+  // TODO: FIX THIS
+})
 
 router.post("/signup", async (req, res, next) => {
   const { email, first_name, last_name, password } = req.body;
@@ -84,13 +92,14 @@ router.post("/signup", async (req, res, next) => {
       process.env.JWT_SECRET, 
       {
         expiresIn: "30d",
-
       }  
     );
 
     res.cookie("access-token", token, {
       maxAge: 2592000000,
       httpOnly: true,
+      //signed: true,
+      // secure: true  WHEN IN PRODUCTION
     });
 
     res.json({
@@ -142,6 +151,8 @@ router.post("/login", async (req, res, next) => {
     res.cookie("access-token", token, {
       maxAge: 2592000000,
       httpOnly: true,
+      //signed: true,
+      // secure: true  WHEN IN PRODUCTION
     });
 
     res.json({

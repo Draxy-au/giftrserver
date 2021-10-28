@@ -11,12 +11,19 @@ const project = require('./constants/project');
 
 const app = express();
 
+const corsOptions = {
+  origin: [process.env.SERVER],
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],
+  credentials: true
+};
+
 app.use(morgan('tiny'));
 app.use(compression());
 app.use(helmet());
 app.use(cors());
+
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser(process.env.JWT_SECRET));
 
 app.get('/', (req, res) => {
   res.json({

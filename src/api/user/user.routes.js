@@ -21,7 +21,7 @@ router.get("/", jwt.validateToken, async (req, res) => {
   }
 });
 
-router.get("/purchases/:id", jwt.validateToken, async (req, res) => {
+router.get("/purchases/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const users = await User.query()
@@ -44,7 +44,7 @@ router.get("/purchases", jwt.validateToken, async (req, res) => {
   }
 });
 
-router.get("/subscriptions/:id", jwt.validateToken, async (req, res) => {
+router.get("/subscriptions/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const users = await User.query()
@@ -60,6 +60,17 @@ router.get("/subscriptions/:id", jwt.validateToken, async (req, res) => {
 router.get("/subscriptions", jwt.validateToken, async (req, res) => {
   try {
     const users = await User.query().withGraphFetched("subscriptions");
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.get("/lists/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const users = await User.query().withGraphFetched("lists").where({ id });;
     res.json(users);
   } catch (err) {
     console.log(err);

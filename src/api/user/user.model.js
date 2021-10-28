@@ -40,6 +40,14 @@ class User extends Model {
           to: "listitem.id",
         },
       },
+      lists: {
+        relation: Model.HasManyRelation,
+        modelClass: ListModel,
+        join: {
+          from: "user.id",
+          to: "list.user_id",
+        },
+      },
     };
   }
 }
