@@ -17,6 +17,7 @@ exports.up = async (knex) => {
       table.integer("user_id").references("id").inTable("user").notNullable();
       table.string("name").notNullable();
       table.string("type").notNullable();
+      table.string("description").notNullable();
       table.date("closing").notNullable();
       table.timestamps(true, true);
     })

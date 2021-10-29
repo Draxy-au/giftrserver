@@ -46,6 +46,16 @@
           "bday"
         ]
       },
+      "description": {
+        "$id": "#/properties/description",
+        "type": "string",
+        "title": "List Description",
+        "description": "The List's description.",
+        "examples": [
+          "A short list",
+          "My bday List"
+        ]
+      },
       "closing": {
         "$id": "#/properties/created",
         "type": "string",

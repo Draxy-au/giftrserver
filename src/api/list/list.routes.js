@@ -60,13 +60,15 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { user_id, name, type, closing } = req.body;
+  const { user_id, name, description, type, closing } = req.body;
+  
   try {
     const newList = {
       user_id,
       name,
+      description,
       type,
-      closing,
+      closing: closing,
     };
 
     await yupListSchema.validate(newList, {
