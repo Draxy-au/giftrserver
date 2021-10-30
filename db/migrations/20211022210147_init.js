@@ -21,15 +21,10 @@ exports.up = async (knex) => {
       table.date("closing").notNullable();
       table.timestamps(true, true);
     })
-    .createTable(tableNames.category, (table) => {
-      table.increments();
-      table.string("name").notNullable();
-    })
     .createTable(tableNames.listitem, (table) => {
       table.increments();
       table.integer("list_id").references("id").inTable("list").notNullable();
       table.string("name").notNullable();
-      table.integer("category_id").references("id").inTable("category");
       table.decimal("price", 14, 2).notNullable();
       table.text("url");
       table.text("description");
