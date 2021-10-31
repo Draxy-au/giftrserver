@@ -13,7 +13,6 @@ class Listitem extends Model {
 
   static get relationMappings() {
     const ListModel = require("../list/list.model");
-    const CategoryModel = require("../category/category.model");
     return {
       list: {
         relation: Model.HasOneRelation,
@@ -21,14 +20,6 @@ class Listitem extends Model {
         join: {
           from: tableNames.listitem.list_id,
           to: tableNames.list.id,
-        },
-      },
-      category: {
-        relation: Model.HasOneRelation,
-        modelClass: CategoryModel,
-        join: {
-          from: tableNames.listitem.category_id,
-          to: tableNames.category.id,
         },
       },
     };

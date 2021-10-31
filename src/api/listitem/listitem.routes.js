@@ -7,7 +7,6 @@ const router = express.Router();
 const yupListitemSchema = yup.object().shape({
   list_id: yup.number().required(),
   name: yup.string().required(),
-  category_id: yup.number(),
   price: yup.number().required(),
   url: yup.string(),
   description: yup.string(),
@@ -44,7 +43,6 @@ router.post("/", async (req, res) => {
   const {
     list_id,
     name,
-    category_id,
     price,
     url,
     description,
@@ -55,7 +53,6 @@ router.post("/", async (req, res) => {
     const newListitem = {
       list_id,
       name,
-      category_id: category_id ? category_id : null,
       price,
       url: url ? url : "",
       description: description ? description : "",
@@ -89,7 +86,6 @@ router.put("/:id", async (req, res) => {
   const {
     list_id,
     name,
-    category_id,
     price,
     url,
     description,
@@ -101,7 +97,6 @@ router.put("/:id", async (req, res) => {
     const updateListitem = {
       list_id,
       name,
-      category_id: category_id ? category_id : null,
       price,
       url: url ? url : "",
       description: description ? description : "",
