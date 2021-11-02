@@ -9,7 +9,7 @@ const subscribe = require('./subscribe/subscribe.routes');
 const purchase = require('./purchase/purchase.routes');
 const listitem = require('./listitem/listitem.routes');
 const list = require('./list/list.routes');
-
+const upload = require('./upload/upload.routes');
 
 const router = express.Router();
 
@@ -20,5 +20,6 @@ router.use('/subscribe', subscribe);
 router.use('/purchase', purchase);
 router.use('/listitem', listitem);
 router.use('/list', list);
+router.use('/upload', upload);
 
 module.exports = router;

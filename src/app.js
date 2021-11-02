@@ -8,6 +8,7 @@ const cors = require('cors');
 const middlewares = require('./middlewares');
 const api = require('./api');
 const project = require('./constants/project');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(morgan('tiny'));
 app.use(compression());
 app.use(helmet());
 app.use(cors());
-
+app.use(fileUpload());
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
