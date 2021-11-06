@@ -53,7 +53,6 @@ exports.down = async (knex) => {
     .dropTableIfExists(tableNames.purchase)
     .dropTableIfExists(tableNames.subscribe)
     .dropTableIfExists(tableNames.listitem)
-    .dropTableIfExists(tableNames.category)
     .dropTableIfExists(tableNames.list)
     .dropTableIfExists(tableNames.user);
 };
