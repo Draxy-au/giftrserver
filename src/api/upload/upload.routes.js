@@ -57,8 +57,6 @@ router.post("/old", async (req, res) => {
   const { tempFileName } = req.body;
 
   tempfile = `../giftrClient/public${tempFileName}`;
-  console.log("temp file: ", tempfile);
-
   var resultHandler = function (err) {
     if (err) {
       console.log("unlink failed", err);
